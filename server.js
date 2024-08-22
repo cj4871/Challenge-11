@@ -39,6 +39,31 @@ app.post("/api/notes", (req,res) =>{
             title,
             text,
         }
+    fs.readFile('./db/db.json', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        } else {
+            const savedNotes = JSON.parse(data)
+            console.log(data)
+            savedNotes.push(newNote)
+            db = savedNotes
+        fs.writeFile('./db/db.json', JSON.stringify(savedNotes, null, 4), (writeErr) =>
+            writeErr
+                ? console.error(writeErr)
+                : console.info('Successfully updated notes')
+            )
+        }
+    })
+    
+            const response = {
+                status: "success",
+                body: newNote,
+            }
+
+                console.log(response);
+                res.status(201).json(response);
+                } else {
+                    res.status(500).json("Error in posting note");
     }
 })
 
